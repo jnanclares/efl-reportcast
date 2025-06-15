@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import './Navbar.css';
 import logo from '../assets/logo.png';
+import { Link } from 'react-router-dom';
 
-const Navbar = ({ onExpansionChange }) => {
+const Navbar = ({ onExpansionChange, userProfile, onLogout }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleMouseEnter = () => {
@@ -23,28 +24,39 @@ const Navbar = ({ onExpansionChange }) => {
     >
       <div className="sidebar-header">
         <img src={logo} alt="EFL Logo" className="sidebar-logo" />
-        <span className="sidebar-title">ReportCast</span>
+        <Link to="/" className="sidebar-title sidebar-title-link"><strong>ReportCast</strong></Link>
       </div>
+      {userProfile && isExpanded && (
+        <div className="user-profile">
+          <h3>{userProfile.first_name} {userProfile.last_name}</h3>
+          <p>{userProfile.email}</p>
+        </div>
+      )}
       <ul className="sidebar-menu">
         <li className="sidebar-item">
-          <a href="#seccion1">
+          <Link to="/documentation">
             <span className="sidebar-icon">📄</span>
-            <span className="sidebar-item-text">Sección 1</span>
-          </a>
+            <span className="sidebar-item-text">Documentation</span>
+          </Link>
         </li>
         <li className="sidebar-item">
-          <a href="#seccion2">
+          <Link to="/reports">
             <span className="sidebar-icon">📊</span>
-            <span className="sidebar-item-text">Sección 2</span>
-          </a>
+            <span className="sidebar-item-text">Reports</span>
+          </Link>
         </li>
         <li className="sidebar-item">
-          <a href="#seccion3">
+          <Link to="/settings">
             <span className="sidebar-icon">⚙️</span>
-            <span className="sidebar-item-text">Sección 3</span>
-          </a>
+            <span className="sidebar-item-text">Settings</span>
+          </Link>
         </li>
       </ul>
+      {userProfile && isExpanded && (
+        <div className="sidebar-logout">
+          <button onClick={onLogout}>Log out</button>
+        </div>
+      )}
     </nav>
   );
 };
