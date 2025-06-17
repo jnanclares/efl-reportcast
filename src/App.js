@@ -9,6 +9,7 @@ import { getUserProfile, updateUserProfile } from './utils/auth';
 import logo from './assets/logo.png';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import ResetPassword from './components/ResetPassword';
+import ProtectedReportRoute from './components/ProtectedReportRoute';
 
 function HomePage() {
   return (
@@ -27,11 +28,34 @@ function HomePage() {
 }
 
 function ReportsPage() {
-  return <div className="homepage-container"><h2>Reports</h2><p>Coming soon...</p></div>;
+  // Aquí deberías obtener el reportId real de la URL o del estado
+  const reportId = 1; // Ejemplo estático
+  return (
+    <ProtectedReportRoute reportId={reportId}>
+      <div className="homepage-container">
+        <h2>Reports</h2>
+        <p>Coming soon...</p>
+      </div>
+    </ProtectedReportRoute>
+  );
 }
 
 function DocumentationPage() {
-  return <div className="homepage-container"><h2>Documentation</h2><p>Coming soon...</p></div>;
+  return (
+    <div className="homepage-container">
+      <h2>Documentation</h2>
+      <p>Coming soon...</p>
+    </div>
+  );
+}
+
+function UnauthorizedPage() {
+  return (
+    <div className="homepage-container">
+      <h2>Unauthorized Access</h2>
+      <p>You don't have permission to access this resource.</p>
+    </div>
+  );
 }
 
 function AppContent() {
@@ -124,6 +148,7 @@ function AppContent() {
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/documentation" element={<DocumentationPage />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>
