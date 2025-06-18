@@ -94,3 +94,58 @@
   text-align: center;
   max-width: 600px;
 }
+
+.reports-list-mock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 32px auto;
+  max-width: 1100px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 32px 24px 40px 24px;
+  box-shadow: 0 2px 8px #0001;
+}
+
+.mock-reports-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.mock-report-card {
+  background: #f8fafc;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px #0001;
+  padding: 24px 20px 20px 20px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1.5px solid #e0e0e0;
+}
+
+.mock-report-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+.mock-report-card p {
+  color: #444;
+  font-size: 1rem;
+  margin-bottom: 18px;
+}
+
+.request-access-btn {
+  background: #0078d4;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  cursor: not-allowed;
+  opacity: 0.7;
+}

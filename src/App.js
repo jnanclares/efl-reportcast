@@ -10,6 +10,28 @@ import logo from './assets/logo.png';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import ResetPassword from './components/ResetPassword';
 
+// Componente de ejemplo para mostrar cómo se integraría Power BI
+function PowerBIReport({ name, description, embedUrl, accessToken }) {
+  return (
+    <div className="mock-report-card">
+      <h3>{name}</h3>
+      <p>{description}</p>
+      {/* Aquí iría el embed real de Power BI usando el SDK, por ahora solo mostramos el iframe de ejemplo */}
+      <div style={{width: '100%', height: 300, marginBottom: 12, background: '#eee', borderRadius: 6, overflow: 'hidden'}}>
+        <iframe
+          title={name}
+          src={embedUrl + '&embedToken=' + accessToken}
+          style={{width: '100%', height: '100%', border: 'none'}}
+          allowFullScreen
+        />
+      </div>
+      <button className="request-access-btn" disabled>
+        Pedir acceso
+      </button>
+    </div>
+  );
+}
+
 function HomePage() {
   return (
     <div className="homepage-container">
@@ -27,7 +49,41 @@ function HomePage() {
 }
 
 function ReportsPage() {
-  return <div className="homepage-container"><h2>Reports</h2><p>Coming soon...</p></div>;
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      setLoading(true);
+      setError(null);
+      const { data, error } = await supabase.from('reports').select('*');
+      if (error) {
+        setError('Error al cargar los reportes');
+        setReports([]);
+      } else {
+        setReports(data || []);
+      }
+      setLoading(false);
+    };
+    fetchReports();
+  }, []);
+
+  return (
+    <div className="reports-list-mock">
+      <h2>Reportes disponibles</h2>
+      {loading && <p>Cargando reportes...</p>}
+      {error && <p style={{color: 'red'}}>{error}</p>}
+      <div className="mock-reports-grid">
+        {reports.map((report) => (
+          <PowerBIReport key={report.id} {...report} />
+        ))}
+      </div>
+      <p style={{marginTop: 32, color: '#888', fontSize: 15}}>
+        (Reportes disponibles actualmente a los cuales se puede pedir acceso.)
+      </p>
+    </div>
+  );
 }
 
 function DocumentationPage() {
