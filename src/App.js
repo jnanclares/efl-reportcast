@@ -12,22 +12,45 @@ import ResetPassword from './components/ResetPassword';
 import ProtectedReportRoute from './components/ProtectedReportRoute';
 
 // Componente de ejemplo para mostrar cómo se integraría Power BI
-function PowerBIReport({ name, description, embedUrl, accessToken }) {
+function PowerBIReport({ id, name, description, embedUrl, accessToken }) {
+  const [showReport, setShowReport] = useState(false);
+
+  const handleViewReport = () => {
+    setShowReport(true);
+  };
+
+  if (showReport) {
+    return (
+      <ProtectedReportRoute reportId={id}>
+        <div className="mock-report-card">
+          <h3>{name}</h3>
+          <p>{description}</p>
+          {/* Aquí iría el embed real de Power BI usando el SDK, por ahora solo mostramos el iframe de ejemplo */}
+          <div style={{ width: '100%', height: 300, marginBottom: 12, background: '#eee', borderRadius: 6, overflow: 'hidden' }}>
+            <iframe
+              title={name}
+              src={embedUrl + '&embedToken=' + accessToken}
+              style={{ width: '100%', height: '100%', border: 'none' }}
+              allowFullScreen
+            />
+          </div>
+          <button onClick={() => setShowReport(false)} className="request-access-btn">
+            Cerrar reporte
+          </button>
+        </div>
+      </ProtectedReportRoute>
+    );
+  }
+
   return (
     <div className="mock-report-card">
       <h3>{name}</h3>
       <p>{description}</p>
-      {/* Aquí iría el embed real de Power BI usando el SDK, por ahora solo mostramos el iframe de ejemplo */}
-      <div style={{width: '100%', height: 300, marginBottom: 12, background: '#eee', borderRadius: 6, overflow: 'hidden'}}>
-        <iframe
-          title={name}
-          src={embedUrl + '&embedToken=' + accessToken}
-          style={{width: '100%', height: '100%', border: 'none'}}
-          allowFullScreen
-        />
+      <div style={{ width: '100%', height: 200, marginBottom: 12, background: '#f5f5f5', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666' }}>
+        <span>Vista previa del reporte</span>
       </div>
-      <button className="request-access-btn" disabled>
-        Pedir acceso
+      <button onClick={handleViewReport} className="request-access-btn">
+        Ver reporte
       </button>
     </div>
   );
@@ -74,26 +97,16 @@ function ReportsPage() {
     <div className="reports-list-mock">
       <h2>Reportes disponibles</h2>
       {loading && <p>Cargando reportes...</p>}
-      {error && <p style={{color: 'red'}}>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <div className="mock-reports-grid">
         {reports.map((report) => (
           <PowerBIReport key={report.id} {...report} />
         ))}
       </div>
-      <p style={{marginTop: 32, color: '#888', fontSize: 15}}>
-        (Reportes disponibles actualmente a los cuales se puede pedir acceso.)
+      <p style={{ marginTop: 32, color: '#888', fontSize: 15 }}>
+        (Haz clic en "Ver reporte" para acceder a cada reporte individual)
       </p>
     </div>
-  );
-  // Aquí deberías obtener el reportId real de la URL o del estado
-  const reportId = 1; // Ejemplo estático
-  return (
-    <ProtectedReportRoute reportId={reportId}>
-      <div className="homepage-container">
-        <h2>Reports</h2>
-        <p>Coming soon...</p>
-      </div>
-    </ProtectedReportRoute>
   );
 }
 
@@ -102,15 +115,6 @@ function DocumentationPage() {
     <div className="homepage-container">
       <h2>Documentation</h2>
       <p>Coming soon...</p>
-    </div>
-  );
-}
-
-function UnauthorizedPage() {
-  return (
-    <div className="homepage-container">
-      <h2>Unauthorized Access</h2>
-      <p>You don't have permission to access this resource.</p>
     </div>
   );
 }
@@ -205,14 +209,13 @@ function AppContent() {
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/documentation" element={<DocumentationPage />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>
       {!isResetPassword && (
-        <RegisterModal 
-          isOpen={isRegisterModalOpen} 
-          onClose={handleCloseRegisterModal} 
+        <RegisterModal
+          isOpen={isRegisterModalOpen}
+          onClose={handleCloseRegisterModal}
           onRegisterSuccess={handleRegisterSuccess}
         />
       )}
