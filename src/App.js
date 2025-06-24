@@ -11,6 +11,9 @@ import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from
 import ResetPassword from './components/ResetPassword';
 import ProtectedReportRoute from './components/ProtectedReportRoute';
 
+// Logo de Power BI para la vista previa
+const powerBILogo = 'https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg';
+
 // Componente de ejemplo para mostrar cómo se integraría Power BI
 function PowerBIReport({ id, name, description, embedUrl, accessToken }) {
   const [showReport, setShowReport] = useState(false);
@@ -25,13 +28,14 @@ function PowerBIReport({ id, name, description, embedUrl, accessToken }) {
         <div className="mock-report-card">
           <h3>{name}</h3>
           <p>{description}</p>
-          {/* Aquí iría el embed real de Power BI usando el SDK, por ahora solo mostramos el iframe de ejemplo */}
-          <div style={{ width: '100%', height: 300, marginBottom: 12, background: '#eee', borderRadius: 6, overflow: 'hidden' }}>
+          {/* Iframe real de Power BI para reportes públicos */}
+          <div style={{ width: '100%', height: 400, marginBottom: 12, background: '#eee', borderRadius: 6, overflow: 'hidden' }}>
             <iframe
               title={name}
-              src={embedUrl + '&embedToken=' + accessToken}
+              src={embedUrl}
               style={{ width: '100%', height: '100%', border: 'none' }}
               allowFullScreen
+              frameBorder="0"
             />
           </div>
           <button onClick={() => setShowReport(false)} className="request-access-btn">
@@ -46,8 +50,9 @@ function PowerBIReport({ id, name, description, embedUrl, accessToken }) {
     <div className="mock-report-card">
       <h3>{name}</h3>
       <p>{description}</p>
-      <div style={{ width: '100%', height: 200, marginBottom: 12, background: '#f5f5f5', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666' }}>
-        <span>Vista previa del reporte</span>
+      {/* Logo de Power BI como vista previa */}
+      <div style={{ width: '100%', height: 200, marginBottom: 12, background: '#f5f5f5', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <img src={powerBILogo} alt="Power BI Logo" style={{ maxHeight: 90, maxWidth: '80%' }} />
       </div>
       <button onClick={handleViewReport} className="request-access-btn">
         Ver reporte
