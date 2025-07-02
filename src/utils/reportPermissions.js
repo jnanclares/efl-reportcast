@@ -1,7 +1,7 @@
 import { supabase } from './supabaseClient';
 
 export const canUserViewReport = async (userId, reportId) => {
-  // 1. Obtén los roles del usuario
+  // 1. Get user roles
   const { data: userRoles, error: userRolesError } = await supabase
     .from('user_roles')
     .select('role_id')
@@ -11,7 +11,7 @@ export const canUserViewReport = async (userId, reportId) => {
 
   const roleIds = userRoles.map(r => r.role_id);
 
-  // 2. Verifica si alguno de sus roles tiene permiso para ver el reporte
+  // 2. Check if any of their roles has permission to view the report
   const { data: permissions, error: permError } = await supabase
     .from('report_permissions')
     .select('can_view')

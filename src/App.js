@@ -10,11 +10,13 @@ import logo from './assets/logo.png';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import ResetPassword from './components/ResetPassword';
 import ProtectedReportRoute from './components/ProtectedReportRoute';
+import AdminPanel from './components/AdminPanel';
+import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 
-// Logo de Power BI para la vista previa
+// Power BI logo for preview
 const powerBILogo = 'https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg';
 
-// Componente de ejemplo para mostrar cómo se integraría Power BI
+// Example component to show how Power BI would be integrated
 function PowerBIReport({ id, name, description, embedUrl, accessToken }) {
   const [showReport, setShowReport] = useState(false);
 
@@ -28,7 +30,7 @@ function PowerBIReport({ id, name, description, embedUrl, accessToken }) {
         <div className="mock-report-card">
           <h3>{name}</h3>
           <p>{description}</p>
-          {/* Iframe real de Power BI para reportes públicos */}
+          {/* Real Power BI iframe for public reports */}
           <div style={{ width: '100%', height: 400, marginBottom: 12, background: '#eee', borderRadius: 6, overflow: 'hidden' }}>
             <iframe
               title={name}
@@ -39,7 +41,7 @@ function PowerBIReport({ id, name, description, embedUrl, accessToken }) {
             />
           </div>
           <button onClick={() => setShowReport(false)} className="request-access-btn">
-            Cerrar reporte
+            Close Report
           </button>
         </div>
       </ProtectedReportRoute>
@@ -50,12 +52,12 @@ function PowerBIReport({ id, name, description, embedUrl, accessToken }) {
     <div className="mock-report-card">
       <h3>{name}</h3>
       <p>{description}</p>
-      {/* Logo de Power BI como vista previa */}
+      {/* Power BI logo as preview */}
       <div style={{ width: '100%', height: 200, marginBottom: 12, background: '#f5f5f5', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <img src={powerBILogo} alt="Power BI Logo" style={{ maxHeight: 90, maxWidth: '80%' }} />
       </div>
       <button onClick={handleViewReport} className="request-access-btn">
-        Ver reporte
+        View Report
       </button>
     </div>
   );
@@ -88,7 +90,7 @@ function ReportsPage() {
       setError(null);
       const { data, error } = await supabase.from('reports').select('*');
       if (error) {
-        setError('Error al cargar los reportes');
+        setError('Error loading reports');
         setReports([]);
       } else {
         setReports(data || []);
@@ -100,8 +102,8 @@ function ReportsPage() {
 
   return (
     <div className="reports-list-mock">
-      <h2>Reportes disponibles</h2>
-      {loading && <p>Cargando reportes...</p>}
+      <h2>Available Reports</h2>
+      {loading && <p>Loading reports...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <div className="mock-reports-grid">
         {reports.map((report) => (
@@ -109,7 +111,7 @@ function ReportsPage() {
         ))}
       </div>
       <p style={{ marginTop: 32, color: '#888', fontSize: 15 }}>
-        (Haz clic en "Ver reporte" para acceder a cada reporte individual)
+        (Click "View Report" to access each individual report)
       </p>
     </div>
   );
@@ -213,6 +215,11 @@ function AppContent() {
           <Route path="/settings" element={<Settings userProfile={userProfile} />} />
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/documentation" element={<DocumentationPage />} />
+          <Route path="/admin" element={
+            <ProtectedAdminRoute userProfile={userProfile}>
+              <AdminPanel />
+            </ProtectedAdminRoute>
+          } />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="*" element={<HomePage />} />
         </Routes>

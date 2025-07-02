@@ -1,67 +1,67 @@
 # EFL ReportCast
 
-EFL ReportCast es una aplicación web desarrollada para EFL Global que permite a los usuarios acceder a reportes de manera segura. La aplicación implementa un sistema de autenticación utilizando Supabase, permitiendo a los usuarios registrarse y acceder con sus correos corporativos.
+EFL ReportCast is a web application developed for EFL Global that allows users to securely access reports. The application implements an authentication system using Supabase, enabling users to register and access with their corporate emails.
 
-## Objetivos del Proyecto
+## Project Objectives
 
-- Proporcionar una plataforma segura para el acceso a reportes de EFL Global
-- Implementar un sistema de autenticación con Supabase
-- Permitir el registro y acceso con correos corporativos
-- Ofrecer funcionalidades de recuperación y cambio de contraseña
+- Provide a secure platform for accessing EFL Global reports
+- Implement an authentication system with Supabase
+- Allow registration and access with corporate emails
+- Offer password recovery and change functionalities
 
-## Características Principales
+## Main Features
 
-- 🔐 Autenticación segura con Supabase
-- 📧 Registro y acceso con correos corporativos
-- 🔑 Recuperación y cambio de contraseña
-- 🎨 Interfaz moderna y responsiva
+- 🔐 Secure authentication with Supabase
+- 📧 Registration and access with corporate emails
+- 🔑 Password recovery and change
+- 🎨 Modern and responsive interface
 
-## Requisitos Previos
+## Prerequisites
 
-- Node.js (versión 14 o superior)
-- npm (incluido con Node.js)
-- Cuenta de Supabase (para la configuración del backend)
+- Node.js (version 14 or higher)
+- npm (included with Node.js)
+- Supabase account (for backend configuration)
 
-## Instalación y Configuración
+## Installation and Configuration
 
-1. **Clonar el repositorio:**
+1. **Clone the repository:**
    ```bash
-   git clone [URL_DEL_REPOSITORIO]
+   git clone [REPOSITORY_URL]
    cd efl_reportcast
    ```
 
-2. **Instalar dependencias:**
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-3. **Configurar variables de entorno:**
-   Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
+3. **Configure environment variables:**
+   Create a `.env` file in the project root with the following variables:
    ```
-   REACT_APP_SUPABASE_URL=tu_url_de_supabase
-   REACT_APP_SUPABASE_ANON_KEY=tu_clave_anonima_de_supabase
+   REACT_APP_SUPABASE_URL=your_supabase_url
+   REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
 
-4. **Iniciar el servidor de desarrollo:**
+4. **Start the development server:**
    ```bash
    npm start
    ```
 
-5. **Acceder a la aplicación:**
-   Abre tu navegador y visita [http://localhost:3000](http://localhost:3000)
+5. **Access the application:**
+   Open your browser and visit [http://localhost:3000](http://localhost:3000)
 
-## Tecnologías Utilizadas
+## Technologies Used
 
 - React.js
-- Supabase (Autenticación)
+- Supabase (Authentication)
 - React Router
 - Tailwind CSS
 - Node.js
 
-## Licencia
+## License
 
-Este proyecto es propiedad de EFL Global y su uso está restringido a los términos y condiciones establecidos por la empresa.
+This project is property of EFL Global and its use is restricted to the terms and conditions established by the company.
 
-## Contacto
+## Contact
 
-Para más información o soporte, contacta al equipo de desarrollo de EFL Global.
+For more information or support, contact the EFL Global development team.

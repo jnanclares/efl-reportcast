@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
+import { isUserAdmin } from '../utils/adminPermissions';
 
 const Navbar = ({ onExpansionChange, userProfile, onLogout }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const handleMouseEnter = () => {
     setIsExpanded(true);
@@ -15,6 +17,24 @@ const Navbar = ({ onExpansionChange, userProfile, onLogout }) => {
     setIsExpanded(false);
     if (onExpansionChange) onExpansionChange(false);
   };
+
+  // Check if user is admin when userProfile changes
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      console.log('🔄 Navbar: Checking admin status for user profile:', userProfile);
+      
+      if (userProfile && userProfile.id) {
+        console.log('✅ Navbar: User profile has ID:', userProfile.id);
+        const adminStatus = await isUserAdmin(userProfile.id);
+        console.log('🎯 Navbar: Admin status result:', adminStatus);
+        setIsAdmin(adminStatus);
+      } else {
+        console.log('❌ Navbar: No user profile or ID found');
+        setIsAdmin(false);
+      }
+    };
+    checkAdminStatus();
+  }, [userProfile]);
 
   return (
     <nav 
@@ -51,6 +71,14 @@ const Navbar = ({ onExpansionChange, userProfile, onLogout }) => {
             <span className="sidebar-item-text">Settings</span>
           </Link>
         </li>
+        {isAdmin && (
+          <li className="sidebar-item">
+            <Link to="/admin">
+              <span className="sidebar-icon">👨‍💼</span>
+              <span className="sidebar-item-text">Admin Panel</span>
+            </Link>
+          </li>
+        )}
       </ul>
       {userProfile && isExpanded && (
         <div className="sidebar-logout">

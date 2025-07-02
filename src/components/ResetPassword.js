@@ -3,12 +3,12 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../utils/supabaseClient';
 
 function getTokenFromHashOrQuery(searchParams) {
-  // Primero intenta query param
+  // First try query param
   const queryToken = searchParams.get('access_token');
   if (queryToken) return queryToken;
-  // Luego intenta hash
+  // Then try hash
   if (window.location.hash) {
-    const hash = window.location.hash.substring(1); // quita el '#'
+    const hash = window.location.hash.substring(1); // remove the '#'
     const params = new URLSearchParams(hash);
     return params.get('access_token');
   }
@@ -27,7 +27,7 @@ const ResetPassword = () => {
   const accessToken = getTokenFromHashOrQuery(searchParams);
 
   useEffect(() => {
-    // Espera un ciclo para asegurar que el hash esté disponible
+    // Wait one cycle to ensure hash is available
     const timer = setTimeout(() => {
       setCheckedToken(true);
       if (!getTokenFromHashOrQuery(searchParams)) {
