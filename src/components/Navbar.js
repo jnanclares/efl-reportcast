@@ -53,31 +53,35 @@ const Navbar = ({ onExpansionChange, userProfile, onLogout }) => {
         </div>
       )}
       <ul className="sidebar-menu">
-        <li className="sidebar-item">
-          <Link to="/documentation">
-            <span className="sidebar-icon">📄</span>
-            <span className="sidebar-item-text">Documentation</span>
-          </Link>
-        </li>
-        <li className="sidebar-item">
-          <Link to="/reports">
-            <span className="sidebar-icon">📊</span>
-            <span className="sidebar-item-text">Reports</span>
-          </Link>
-        </li>
-        <li className="sidebar-item">
-          <Link to="/settings">
-            <span className="sidebar-icon">⚙️</span>
-            <span className="sidebar-item-text">Settings</span>
-          </Link>
-        </li>
-        {isAdmin && (
-          <li className="sidebar-item">
-            <Link to="/admin">
-              <span className="sidebar-icon">👨‍💼</span>
-              <span className="sidebar-item-text">Admin Panel</span>
-            </Link>
-          </li>
+        {userProfile && (
+          <>
+            <li className="sidebar-item">
+              <Link to="/documentation">
+                <span className="sidebar-icon">📄</span>
+                <span className="sidebar-item-text">Documentation</span>
+              </Link>
+            </li>
+            <li className="sidebar-item">
+              <Link to="/reports">
+                <span className="sidebar-icon">📊</span>
+                <span className="sidebar-item-text">Reports</span>
+              </Link>
+            </li>
+            <li className="sidebar-item">
+              <Link to="/settings">
+                <span className="sidebar-icon">⚙️</span>
+                <span className="sidebar-item-text">Settings</span>
+              </Link>
+            </li>
+            {isAdmin && (
+              <li className="sidebar-item">
+                <Link to="/admin">
+                  <span className="sidebar-icon">👨‍💼</span>
+                  <span className="sidebar-item-text">Admin Panel</span>
+                </Link>
+              </li>
+            )}
+          </>
         )}
       </ul>
       {userProfile && isExpanded && (

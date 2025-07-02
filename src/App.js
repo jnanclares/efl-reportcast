@@ -12,6 +12,7 @@ import ResetPassword from './components/ResetPassword';
 import ProtectedReportRoute from './components/ProtectedReportRoute';
 import AdminPanel from './components/AdminPanel';
 import ProtectedAdminRoute from './components/ProtectedAdminRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Power BI logo for preview
 const powerBILogo = 'https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg';
@@ -212,9 +213,21 @@ function AppContent() {
       <main className="App-main">
         <Routes>
           <Route path="/" element={!user ? <Login onRegisterClick={handleOpenRegisterModal} onLoginSuccess={handleLoginSuccess} /> : <HomePage />} />
-          <Route path="/settings" element={<Settings userProfile={userProfile} />} />
-          <Route path="/reports" element={<ReportsPage />} />
-          <Route path="/documentation" element={<DocumentationPage />} />
+          <Route path="/settings" element={
+            <ProtectedRoute user={user} userProfile={userProfile}>
+              <Settings userProfile={userProfile} />
+            </ProtectedRoute>
+          } />
+          <Route path="/reports" element={
+            <ProtectedRoute user={user} userProfile={userProfile}>
+              <ReportsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/documentation" element={
+            <ProtectedRoute user={user} userProfile={userProfile}>
+              <DocumentationPage />
+            </ProtectedRoute>
+          } />
           <Route path="/admin" element={
             <ProtectedAdminRoute userProfile={userProfile}>
               <AdminPanel />
