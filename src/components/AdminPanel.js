@@ -146,8 +146,24 @@ const AdminPanel = () => {
         if (insertError) throw insertError;
       }
 
-      // Refresh the users list
-      await fetchUsersWithRoles();
+      // Update the local state instead of refetching all users
+      setUsers(prevUsers => 
+        prevUsers.map(user => {
+          if (user.id === userId) {
+            // Get the role information for the updated user
+            const selectedRoleInfo = newRoleId ? roles.find(role => role.id === newRoleId) : null;
+            
+            return {
+              ...user,
+              first_name: firstName.trim(),
+              last_name: lastName.trim(),
+              roleIds: newRoleId ? [newRoleId] : [],
+              roles: selectedRoleInfo ? [selectedRoleInfo.name] : []
+            };
+          }
+          return user;
+        })
+      );
       
       // Close modal
       setEditModalOpen(false);
@@ -698,14 +714,22 @@ const AdminPanel = () => {
             
             <div className="modal-footer">
               <button 
-                onClick={handleCancelEdit} 
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCancelEdit();
+                }} 
                 className="cancel-button"
                 disabled={saving}
               >
                 Cancel
               </button>
               <button 
-                onClick={handleSaveChanges} 
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSaveChanges();
+                }} 
                 className="save-button"
                 disabled={saving}
               >
