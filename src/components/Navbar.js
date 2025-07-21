@@ -55,12 +55,7 @@ const Navbar = ({ onExpansionChange, userProfile, onLogout }) => {
       <ul className="sidebar-menu">
         {userProfile && (
           <>
-            <li className="sidebar-item">
-              <Link to="/documentation">
-                <span className="sidebar-icon">📄</span>
-                <span className="sidebar-item-text">Documentation</span>
-              </Link>
-            </li>
+
             <li className="sidebar-item">
               <Link to="/reports">
                 <span className="sidebar-icon">📊</span>
