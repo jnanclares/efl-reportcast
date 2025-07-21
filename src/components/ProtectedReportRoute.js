@@ -20,15 +20,19 @@ const ProtectedReportRoute = ({ reportId, children }) => {
       setUserId(user.id);
       const allowed = await canUserViewReport(user.id, reportId);
       setIsAllowed(allowed);
-      // Verificar si ya hay una solicitud pendiente, en revisión o aceptada
+      
+      // Verificar si hay una solicitud pendiente específicamente
+      // Solo las solicitudes pendientes deben bloquear nuevas solicitudes
       const { data: solicitudes, error } = await supabase
         .from('solicitudes_reportes')
         .select('id, status')
         .eq('user_id', user.id)
         .eq('reporte_id', reportId);
-      // El botón solo se deshabilita si hay una solicitud que NO está en 'rejected'
-      const hasActiveRequest = (solicitudes || []).some(s => s.status !== 'rejected');
-      setHasRequested(hasActiveRequest);
+      
+      // Solo bloquear si hay una solicitud pendiente
+      // Las solicitudes aprobadas/rechazadas no deben bloquear nuevas solicitudes
+      const hasPendingRequest = (solicitudes || []).some(s => s.status === 'pending');
+      setHasRequested(hasPendingRequest);
     };
     check();
   }, [reportId, showModal]);
@@ -65,7 +69,7 @@ const ProtectedReportRoute = ({ reportId, children }) => {
           <span>Restricted content</span>
         </div>
         <button className="request-access-btn" onClick={() => setShowModal(true)} disabled={hasRequested}>
-          {hasRequested ? 'Request sent' : 'Request access'}
+          {hasRequested ? 'Request pending...' : 'Request access'}
         </button>
         <RequestAccessModal open={showModal} onClose={() => setShowModal(false)} userId={userId} defaultReportId={reportId} />
       </div>
